@@ -4,88 +4,86 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewScreenSizes
+import androidx.compose.runtime.LaunchedEffect
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation3.runtime.result.rememberResultEventBus
+import com.moniz.app_base.navigation.NavigationHandler
+import com.moniz.app_base.navigation.RootRoute
 import com.moniz.fitmoniz.ui.theme.FitMonizTheme
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         setContent {
             FitMonizTheme {
-                FitMonizApp()
+
+                val navController = rememberNavController()
+                val viewModel: MainViewModel = hiltViewModel()
+                FitMonizApp(navController, viewModel)
             }
         }
     }
 }
 
-@PreviewScreenSizes
 @Composable
-fun FitMonizApp() {
-    var currentDestination by rememberSaveable { mutableStateOf(AppDestinations.HOME) }
-
-    NavigationSuiteScaffold(
-        navigationSuiteItems = {
-            AppDestinations.entries.forEach {
-                item(
-                    icon = {
-                        Icon(
-                            painterResource(it.icon),
-                            contentDescription = it.label
-                        )
-                    },
-                    label = { Text(it.label) },
-                    selected = it == currentDestination,
-                    onClick = { currentDestination = it }
-                )
-            }
-        }
-    ) {
-        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-            Greeting(
-                name = "Android",
-                modifier = Modifier.padding(innerPadding)
-            )
-        }
-    }
-}
-
-enum class AppDestinations(
-    val label: String,
-    val icon: Int,
+fun FitMonizApp(
+    navController: NavHostController,
+    viewModel: MainViewModel
 ) {
-    HOME("Home", R.drawable.ic_home),
-    FAVORITES("Favorites", R.drawable.ic_favorite),
-    PROFILE("Profile", R.drawable.ic_account_box),
-}
+    val resultEventBus = rememberResultEventBus()
+    LaunchedEffect(viewModel) {
+        viewModel.navigationHandler.sharedFlow.collectLatest { command ->
+            when (command) {
+                is NavigationHandler.Command.Navigate -> navController.navigate(command.screen)
+                is NavigationHandler.Command.Pop -> {
+                    val untilScreen = command.untilScreen
+                    if (untilScreen == null) {
+                        navController.popBackStack()
+                    } else {
+                        navController.popBackStack()
+                    }
+                }
+                is NavigationHandler.Command.PopWithResult<*> -> {
+                    resultEventBus.sendResult(command.result)
+                    navController.popBackStack()
+                }
+                is NavigationHandler.Command.Replace -> {
+                    val currentRoute = navController.currentBackStackEntry?.destination?.route
+                        ?: return@collectLatest
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+                    navController.navigate(command.screen) {
+                        popUpTo(currentRoute) { inclusive = true }
+                    }
+                }
+                is NavigationHandler.Command.ReplaceAll -> {
+                    if (command.screens.isNotEmpty()) {
+                        navController.navigate(command.screens.first()) {
+                            popUpTo(navController.graph.id) {
+                                inclusive = true
+                            }
+                        }
+                        for (screen in command.screens.drop(1)) {
+                            navController.navigate(screen)
+                        }
+                    }
+                }
+            }
+        }
+    }
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    FitMonizTheme {
-        Greeting("Android")
+    NavHost(
+        navController = navController,
+        startDestination = RootRoute
+    ) {
+        // Feature module nav graphs plug in here
     }
 }

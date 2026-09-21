@@ -1,9 +1,12 @@
 plugins {
     alias(libs.plugins.android.library)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
 }
 
 android {
     namespace = "com.moniz.app_base"
+
     compileSdk {
         version = release(37)
     }
@@ -21,10 +24,15 @@ android {
 }
 
 dependencies {
+
     // Shared core libraries exposed via 'api'
     api(libs.androidx.core.ktx)
     api(libs.androidx.appcompat)
     api(libs.material)
+
+    //hilt
+    api(libs.hilt.android)
+    ksp(libs.hilt.compiler)
 
     // Shared Lifecycle & ViewModel
     api(libs.androidx.lifecycle.runtime.ktx)

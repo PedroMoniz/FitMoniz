@@ -1,4 +1,4 @@
-package com.moniz.app_base
+package com.moniz.navigation
 
 import org.junit.Test
 

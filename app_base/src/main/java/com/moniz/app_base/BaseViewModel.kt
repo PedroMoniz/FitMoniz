@@ -1,6 +1,9 @@
 package com.moniz.app_base
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.moniz.app_base.navigation.AppRoute
+import com.moniz.app_base.navigation.NavigationHandler
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -8,6 +11,7 @@ import kotlinx.coroutines.flow.onSubscription
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 abstract class BaseViewModel<T : BaseViewModel.ScreenState>(initialState: T) : ViewModel() {
 
@@ -24,7 +28,7 @@ abstract class BaseViewModel<T : BaseViewModel.ScreenState>(initialState: T) : V
         }
         .stateIn(
             scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(TimerConfig.FLOW_TIMEOUT),
+            started = SharingStarted.WhileSubscribed(5000), //TimerConfig.FLOW_TIMEOUT),
             initialValue = _stateStream.value
         )
 
@@ -39,12 +43,12 @@ abstract class BaseViewModel<T : BaseViewModel.ScreenState>(initialState: T) : V
         viewModelScope.launch { navigationHandler.pop() }
     }
 
-    fun launchNavigateTo(screen: BaseScreen) =
+    fun launchNavigateTo(screen: AppRoute) =
         viewModelScope.launch { navigationHandler.navigateTo(screen) }
 
-    suspend fun navigateTo(screen: BaseScreen) = navigationHandler.navigateTo(screen)
+    suspend fun navigateTo(screen: AppRoute) = navigationHandler.navigateTo(screen)
 
-    fun launchPopUntil(untilScreen: Class<out BaseScreen>? = null) {
+    fun launchPopUntil(untilScreen: Class<out AppRoute>? = null) {
         viewModelScope.launch { navigationHandler.pop(untilScreen = untilScreen) }
     }
 
