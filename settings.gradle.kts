@@ -24,3 +24,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "FitMoniz"
 include(":app")
+include(":app_base")
