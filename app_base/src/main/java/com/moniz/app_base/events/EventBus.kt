@@ -1,6 +1,5 @@
-package pt.ca.empresas.mobile.domain.events
+package com.moniz.app_base.events
 
-import com.moniz.app_base.events.Event
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import javax.inject.Inject
