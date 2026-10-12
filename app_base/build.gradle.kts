@@ -38,6 +38,9 @@ dependencies {
     api(libs.androidx.lifecycle.runtime.ktx)
     api(libs.androidx.lifecycle.viewmodel.ktx)
 
+    //timber
+    api(libs.timber)
+
     // Shared Compose BOM & UI libraries
     api(platform(libs.androidx.compose.bom))
     api(libs.androidx.activity.compose)

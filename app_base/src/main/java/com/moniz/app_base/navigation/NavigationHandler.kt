@@ -31,7 +31,7 @@ class NavigationHandler @Inject constructor() {
         emit(Command.ReplaceAll(screens = screens.toList()))
     }
 
-    suspend fun pop(untilScreen: Class<out AppRoute>? = null) {
+    suspend fun pop(untilScreen: KClass<out AppRoute>? = null) {
         emit(Command.Pop(untilScreen = untilScreen))
     }
 

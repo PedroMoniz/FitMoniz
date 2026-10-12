@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.reflect.KClass
 
 abstract class BaseViewModel<T : BaseViewModel.ScreenState>(initialState: T) : ViewModel() {
 
@@ -48,7 +49,7 @@ abstract class BaseViewModel<T : BaseViewModel.ScreenState>(initialState: T) : V
 
     suspend fun navigateTo(screen: AppRoute) = navigationHandler.navigateTo(screen)
 
-    fun launchPopUntil(untilScreen: Class<out AppRoute>? = null) {
+    fun launchPopUntil(untilScreen: KClass<out AppRoute>? = null) {
         viewModelScope.launch { navigationHandler.pop(untilScreen = untilScreen) }
     }
 
