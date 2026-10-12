@@ -4,6 +4,6 @@ import com.moniz.domain.models.exercises.Exercise
 import com.moniz.domain.usecases.base.DataResult
 import kotlinx.coroutines.flow.Flow
 
-interface ExercisesRepository {
+interface ExerciseRepository {
     fun observeExercises(): Flow<DataResult<List<Exercise>>>
 }

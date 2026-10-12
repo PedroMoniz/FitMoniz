@@ -1,9 +1,8 @@
 package com.moniz.app_base.navigation
 
-import android.os.Parcelable
 import androidx.compose.runtime.Composable
 
-interface BaseScreen : Parcelable {
+interface BaseScreen {
 
     @Composable
     fun Content()

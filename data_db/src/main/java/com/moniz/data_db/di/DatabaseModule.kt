@@ -20,9 +20,7 @@ object DatabaseModule {
         return Room.inMemoryDatabaseBuilder(
             context,
             MemoryDatabase::class.java
-        )
-            .fallbackToDestructiveMigration(true)
-            .build()
+        ).build()
     }
 
     @Provides

@@ -8,6 +8,6 @@ import com.moniz.data_db.entities.ExerciseEntity
 interface ExercisesDao {
 
     @Query("SELECT * FROM exercises WHERE title = :title LIMIT 1")
-    suspend fun getByTitle(id: String): ExerciseEntity?
+    suspend fun getByTitle(title: String): ExerciseEntity?
 
 }

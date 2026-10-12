@@ -12,7 +12,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation3.runtime.result.rememberResultEventBus
 import com.moniz.app_base.navigation.NavigationHandler
-import com.moniz.app_base.navigation.RootRoute
+import com.moniz.app_dashboard.navigation.dashboardGraph
+import com.moniz.fitmoniz.routes.RootRoute
 import com.moniz.fitmoniz.ui.theme.FitMonizTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -25,7 +26,6 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             FitMonizTheme {
-
                 val navController = rememberNavController()
                 val viewModel: MainViewModel = hiltViewModel()
                 FitMonizApp(navController, viewModel)
@@ -84,6 +84,6 @@ fun FitMonizApp(
         navController = navController,
         startDestination = RootRoute
     ) {
-        // Feature module nav graphs plug in here
+        dashboardGraph(navController)
     }
 }

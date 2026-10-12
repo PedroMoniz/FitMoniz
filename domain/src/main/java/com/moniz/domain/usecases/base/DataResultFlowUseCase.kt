@@ -1,6 +1,7 @@
 package com.moniz.domain.usecases.base
 
 import com.moniz.domain.errors.ErrorMapper
+import com.moniz.domain.errors.IgnoreError
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
