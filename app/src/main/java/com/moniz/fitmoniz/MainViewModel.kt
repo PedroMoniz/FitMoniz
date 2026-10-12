@@ -42,6 +42,8 @@ class MainViewModel @Inject constructor(
         initialValue = _stateStream.value
     )
 
+
+    //TODO: Remove the state events in favor of a sharedFlow
     data class ComposeState(
         val showRatingSheet: StateEventWithContent<Trigger.Type<Event.RatingSheet>> = consumed(),
         val showSnackbar: StateEventWithContent<Trigger.Type<Event.Snackbar>> = consumed(),
