@@ -11,14 +11,9 @@ class DashboardScreen(val accountId: String) : BaseScreen {
     @Composable
     override fun Content() {
         val viewModel = hiltViewModel<DashboardViewModel, DashboardViewModel.Factory>(
-            creationCallback = { factory ->
-                factory.create(accountId = accountId)
-            }
+            creationCallback = { factory -> factory.create(accountId = accountId) }
         )
         val composeState: DashboardViewModel.ComposeState by viewModel.stateStream.collectAsStateWithLifecycle()
-
-        DashboardView(
-            state = composeState
-        )
+        DashboardView(state = composeState)
     }
 }

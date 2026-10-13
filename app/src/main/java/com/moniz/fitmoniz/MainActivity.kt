@@ -14,7 +14,7 @@ import androidx.navigation3.runtime.result.rememberResultEventBus
 import com.moniz.app_base.navigation.NavigationHandler
 import com.moniz.app_dashboard.navigation.dashboardGraph
 import com.moniz.fitmoniz.routes.RootRoute
-import com.moniz.fitmoniz.ui.theme.FitMonizTheme
+import com.moniz.ui.theme.FitMonizTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 

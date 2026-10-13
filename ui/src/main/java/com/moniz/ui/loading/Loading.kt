@@ -9,8 +9,6 @@ import androidx.compose.ui.Modifier
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun Loading(
-    modifier: Modifier = Modifier
-) {
+fun Loading(modifier: Modifier = Modifier) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) { ContainedLoadingIndicator() }
 }

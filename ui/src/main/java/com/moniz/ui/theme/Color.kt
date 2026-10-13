@@ -1,4 +1,4 @@
-package com.moniz.fitmoniz.ui.theme
+package com.moniz.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

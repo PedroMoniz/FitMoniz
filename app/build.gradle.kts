@@ -39,6 +39,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":ui"))
     implementation(project(":app_base"))
     implementation(project(":app_dashboard"))
     implementation(project(":domain"))

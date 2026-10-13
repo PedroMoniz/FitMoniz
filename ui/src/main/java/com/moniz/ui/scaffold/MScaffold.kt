@@ -1,126 +1,85 @@
 package com.moniz.ui.scaffold
 
-import android.os.Build
+import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
+import androidx.compose.ui.unit.dp
+import com.moniz.ui.loading.Loading
+import com.moniz.ui.utils.extensions.conditional
 
 @Composable
 fun MScaffold(
     modifier: Modifier = Modifier,
-    scaffoldState: ScaffoldState = rememberScaffoldState(),
-    backgroundColor: Color = BulletTheme.colors.surfaceBG,
-    overlayView: @Composable BoxScope.() -> Unit = {},
-    showLoading: LoadingUiState? = null,
-    toolbar: ToolbarUiState.Simple,
-    mainMessageState: MainMessageUiState? = null,
+    showLoading: Boolean = false,
     contentScrollState: ScrollState = rememberScrollState(),
-    bottomContent: @Composable (ColumnScope.() -> Unit)? = null,
     useContentHorizontalPadding: Boolean = false,
     content: @Composable ColumnScope.(ScrollState) -> Unit
 ) {
-    val titleHeight = rememberSaveable { mutableIntStateOf(0) }
-    val titleScrollOffsetLimit = rememberTitleScrollOffsetLimit(titleHeight.intValue)
-
-    val contentScrollOffset = rememberScrollOffset(contentScrollState)
-
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    val blurMode = when {
-        showCoachmark != null -> BlurMode.FullScreenBlur
-        showLoading != null -> BlurMode.ContentBlur
-        else -> BlurMode.None
-    }
-
     LaunchedEffect(showLoading) {
-        if (showLoading != null) keyboardController?.hide()
+        if (showLoading) keyboardController?.hide()
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        Scaffold(
-            modifier = modifier
-                .semantics { testTagsAsResourceId = true }
-                .conditional(
-                    predicate = blurMode == BlurMode.FullScreenBlur && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S,
-                    ifTrue = { blur(BulletTheme.dimensions.size3) }
-                ),
-            contentWindowInsets = WindowInsets.statusBars,
-            scaffoldState = scaffoldState,
-            backgroundColor = backgroundColor,
-            topBar = {
-                Toolbar(
-                    state = toolbar,
-                    isCollapsed = mainMessageState != null && (contentScrollOffset.intValue >= titleScrollOffsetLimit.intValue),
-                    collapsedTitle = mainMessageState?.title ?: "",
-                    canScrollBackward = contentScrollState.canScrollBackward
-                )
-            }
-        ) {
-            Box(
-                modifier = Modifier
-                    .padding(it)
-                    .fillMaxSize()
-                    .pointerInput(Unit) {
-                        detectTapGestures(onTap = { focusManager.clearFocus() })
-                    },
-                contentAlignment = Alignment.TopCenter
-            ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .imePadding()
-                        .conditional(
-                            predicate = blurMode == BlurMode.ContentBlur && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S,
-                            ifTrue = { blur(BulletTheme.dimensions.size3) }
-                        )
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(1f)
-                            .conditional(
-                                predicate = useContentHorizontalPadding,
-                                ifTrue = { padding(horizontal = BulletTheme.dimensions.size4) }
-                            )
-                            .verticalScroll(contentScrollState),
-                        horizontalAlignment = Alignment.CenterHorizontally //FIXME: TO BE REMOVED
-                    ) {
-                        mainMessageState?.let { state ->
-                            MainMessage(
-                                state = state,
-                                useHorizontalPadding = !useContentHorizontalPadding,
-                                onHeightChanged = { height -> titleHeight.intValue = height }
-                            )
-                        }
-                        content(contentScrollState)
-                        if (bottomContent == null) {
-                            BottomSpacer()
-                        }
+    Scaffold(
+        modifier = modifier.semantics { testTagsAsResourceId = true },
+        topBar = {
+            TopAppBar(
+                title = { Text("Simple Scaffold Screen") },
+                navigationIcon = {
+                    IconButton(onClick = { /* "Open nav drawer" */ }) {
+                        Icon(Icons.Filled.Menu, contentDescription = "Localized description")
                     }
-                    if (bottomContent != null) {
-                        if (contentScrollState.canScrollForward) {
-                            HorizontalDivider(
-                                modifier = Modifier.fillMaxWidth(),
-                                color = BulletTheme.colors.outlineLow,
-                                thickness = 1.dp
-                            )
-                        }
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .conditional(
-                                    predicate = useContentHorizontalPadding,
-                                    ifTrue = { padding(horizontal = BulletTheme.dimensions.size4) }
-                                ),
-                            horizontalAlignment = Alignment.CenterHorizontally //FIXME: TO BE REMOVED
-                        ) {
-                            bottomContent()
-                        }
-                        BottomSpacer()
-                    }
-                }
-                overlayView()
-                showLoading?.let { Loading(inverted = it.isInverted, lottieAnimation = it.lottieAnimation) }
-            }
+                },
+            )
         }
-        showCoachmark?.let { B8Coachmark(state = it) }
+    ) {
+        Box(
+            modifier = Modifier
+                .padding(paddingValues = it)
+                .fillMaxSize()
+                .pointerInput(Unit) {
+                    detectTapGestures(onTap = { focusManager.clearFocus() })
+                },
+            contentAlignment = Alignment.TopCenter
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .conditional(
+                        predicate = useContentHorizontalPadding,
+                        ifTrue = { padding(horizontal = 16.dp) } //TODO: from theme
+                    )
+                    .verticalScroll(contentScrollState),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                content(contentScrollState)
+            }
+            if (showLoading) Loading()
+        }
     }
 }
