@@ -12,8 +12,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation3.runtime.result.rememberResultEventBus
 import com.moniz.app_base.navigation.NavigationHandler
+import com.moniz.app_dashboard.navigation.DashboardRoute
 import com.moniz.app_dashboard.navigation.dashboardGraph
-import com.moniz.fitmoniz.routes.RootRoute
 import com.moniz.ui.theme.FitMonizTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -82,7 +82,7 @@ fun FitMonizApp(
 
     NavHost(
         navController = navController,
-        startDestination = RootRoute
+        startDestination = DashboardRoute
     ) {
         dashboardGraph(navController)
     }
