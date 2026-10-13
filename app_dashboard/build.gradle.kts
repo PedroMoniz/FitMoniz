@@ -26,9 +26,8 @@ android {
 dependencies {
     implementation(project(":app_base"))
     implementation(project(":domain"))
-    implementation(libs.androidx.appcompat)
+    implementation(project(":ui"))
     implementation(libs.androidx.core.ktx)
-    implementation(libs.material)
     implementation(libs.lifecycle.viewmodel.navigation3)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.hilt.android)

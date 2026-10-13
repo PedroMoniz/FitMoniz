@@ -27,8 +27,6 @@ dependencies {
 
     // Shared core libraries exposed via 'api'
     api(libs.androidx.core.ktx)
-    api(libs.androidx.appcompat)
-    api(libs.material)
 
     //hilt
     api(libs.hilt.android)
