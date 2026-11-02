@@ -21,10 +21,13 @@ internal class DashboardViewModel @AssistedInject constructor(
     }
 
     override suspend fun initOnSubscribe() {
-        updateState { copy(viewState = ViewState.Loading) }
+        updateState { copy(isLoading = true) }
     }
 
     data class ComposeState(
-        override val viewState: ViewState = ViewState.Input
-    ) : ScreenState
+        val isLoading: Boolean = false
+    ) : ScreenState {
+        override val isInitialLoading: Boolean
+            get() = isLoading
+    }
 }

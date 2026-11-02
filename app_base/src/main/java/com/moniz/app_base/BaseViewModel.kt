@@ -1,5 +1,6 @@
 package com.moniz.app_base
 
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.moniz.app_base.navigation.AppRoute
@@ -53,16 +54,9 @@ abstract class BaseViewModel<T : BaseViewModel.ScreenState>(initialState: T) : V
         viewModelScope.launch { navigationHandler.pop(untilScreen = untilScreen) }
     }
 
+    @Stable
     interface ScreenState {
-        val viewState: ViewState
-    }
-
-    interface NavigableScreenState<V> : ScreenState {
-        val currentView: V
-    }
-
-    sealed class ViewState {
-        data object Loading : ViewState()
-        data object Input : ViewState()
+        val isInitialLoading: Boolean
+            get() = false
     }
 }

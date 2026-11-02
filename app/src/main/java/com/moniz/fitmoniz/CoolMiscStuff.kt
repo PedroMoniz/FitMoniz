@@ -579,3 +579,119 @@ class TransactionAggregatorImpl : TransactionAggregator {
         )
     }
 }
+
+fun main() {
+
+    fun count(entry: String): Int {
+        val seenLetters = mutableSetOf<Char>()
+        val counter = LinkedHashMap<Char, Int>()
+
+        for ((i, c) in entry.withIndex()) {
+            if (seenLetters.contains(c)) {
+                counter.remove(c)
+            } else {
+                seenLetters.add(c)
+                counter[c] = i
+            }
+        }
+
+        return counter.values.firstOrNull() ?: -1
+    }
+
+
+    fun countDuplicates(entry: IntArray): Int {
+
+        val seenIds = mutableSetOf<Int>()
+        val counter = mutableSetOf<Int>()
+
+        for (id in entry) {
+            if (seenIds.contains(id)) {
+                counter.add(id)
+            } else {
+                seenIds.add(id)
+            }
+        }
+
+        return counter.size
+
+    }
+
+
+    data class Interval(
+        val start: Int,
+        val end: Int
+    )
+
+
+    fun maxSessions(entries: List<Interval>): Int {
+        var currentMax = 0
+        for ((index, entry) in entries.withIndex()) {
+            var entryMax = 0
+
+        }
+        return currentMax
+    }
+
+
+    fun solution(letters: String): Int {
+
+        val seenLowerCase = mutableSetOf<Char>()
+        val seenUpperCase = mutableSetOf<Char>()
+        val seenLowerUpperCase = mutableSetOf<Char>()
+
+        for (letter in letters) {
+            if (letter.isLowerCase()) {
+                if (seenUpperCase.contains(letter.uppercaseChar())) {
+                    seenLowerUpperCase.remove(letter.uppercaseChar())
+                }
+                seenLowerCase.add(letter)
+            }
+            if (letter.isUpperCase()) {
+                if (seenLowerCase.contains(letter.lowercaseChar()) &&
+                    !seenUpperCase.contains(letter)
+                ) {
+                    seenLowerUpperCase.add(letter)
+                }
+                seenUpperCase.add(letter)
+            }
+        }
+        return seenLowerUpperCase.size
+    }
+
+
+    fun squareCheck(A: Int, B: Int, squareSide: Int): Boolean {
+
+        var tempA = A
+        var tempB = B
+
+        for (i in 1..4) {
+            if (tempA - squareSide >= 0) {
+                tempA -= squareSide
+            } else if (tempB - squareSide >= 0) {
+                tempB -= squareSide
+            } else {
+                return true
+            }
+        }
+
+        return false
+    }
+
+    fun solution(A: Int, B: Int): Int {
+
+        val totalDimension = A + B
+        var squareSide = totalDimension / 4
+
+        while (squareCheck(A, B, squareSide)) {
+            squareSide--
+        }
+        return squareSide
+    }
+
+
+
+    data class UserDto(val id: String, val name: String)
+
+
+
+}
