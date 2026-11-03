@@ -3,7 +3,7 @@ package com.moniz.app_base
 import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.moniz.app_base.navigation.AppRoute
+import androidx.navigation3.runtime.NavKey
 import com.moniz.app_base.navigation.NavigationHandler
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -45,14 +45,14 @@ abstract class BaseViewModel<T : BaseViewModel.ScreenState>(initialState: T) : V
         viewModelScope.launch { navigationHandler.pop() }
     }
 
-    fun launchNavigateTo(screen: AppRoute) =
+    fun launchNavigateTo(screen: NavKey) =
         viewModelScope.launch { navigationHandler.navigateTo(screen) }
 
-    suspend fun navigateTo(screen: AppRoute) = navigationHandler.navigateTo(screen)
-
-    fun launchPopUntil(untilScreen: KClass<out AppRoute>? = null) {
+    fun launchPopUntil(untilScreen: KClass<out NavKey>? = null) {
         viewModelScope.launch { navigationHandler.pop(untilScreen = untilScreen) }
     }
+
+    suspend fun navigateTo(screen: NavKey) = navigationHandler.navigateTo(screen)
 
     @Stable
     interface ScreenState {

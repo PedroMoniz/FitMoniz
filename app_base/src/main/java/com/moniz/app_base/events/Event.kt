@@ -3,14 +3,6 @@ package com.moniz.app_base.events
 
 sealed class Event {
 
-    data object DeviceRooted : Event()
-
-    data object UserBlocked : Event()
-
-    data object Navigation : Event()
-
-    data class RatingSheet(val precedingAppFlow: String) : Event()
-
     data class Snackbar(
         val text: String, //StringResource,
         val action: Action? = null,
@@ -35,6 +27,4 @@ sealed class Event {
         data class Resource(val titleResId: Int? = null, val descriptionResId: Int) : ErrorEvent()
         data class Text(val message: String?) : ErrorEvent()
     }
-
-    data object NoInternet : Event()
 }

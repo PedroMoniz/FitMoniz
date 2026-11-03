@@ -25,7 +25,7 @@ dependencyResolutionManagement {
 rootProject.name = "FitMoniz"
 include(":app")
 include(":app_base")
-include(":app_dashboard")
+include(":feature_dashboard")
 include(":domain")
 include(":repository")
 include(":data_db")

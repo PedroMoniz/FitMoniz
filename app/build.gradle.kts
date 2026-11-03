@@ -44,7 +44,7 @@ dependencies {
     implementation(project(":ui"))
     implementation(project(":domain"))
     implementation(project(":repository"))
-    implementation(project(":app_dashboard"))
+    implementation(project(":feature_dashboard"))
 
     api(libs.androidx.compose.material3.adaptive.navigation.suite)
     api(libs.androidx.navigation.compose)

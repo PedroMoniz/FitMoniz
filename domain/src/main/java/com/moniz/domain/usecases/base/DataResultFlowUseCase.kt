@@ -2,12 +2,18 @@ package com.moniz.domain.usecases.base
 
 import com.moniz.domain.errors.ErrorMapper
 import com.moniz.domain.errors.IgnoreError
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import timber.log.Timber
 
-abstract class DataResultFlowUseCase<in Params, Type>(private val errorMapper: ErrorMapper) {
+abstract class DataResultFlowUseCase<in Params, Type>(
+    private val errorMapper: ErrorMapper,
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+) {
 
     protected abstract fun buildUseCase(params: Params): Flow<DataResult<Type>>
 
@@ -28,5 +34,5 @@ abstract class DataResultFlowUseCase<in Params, Type>(private val errorMapper: E
         }.catch { throwable ->
             Timber.e(throwable, "Broken Flow: Unmapped error")
             emit(DataResult.Failure(IgnoreError()))
-        }
+        }.flowOn(dispatcher)
 }
