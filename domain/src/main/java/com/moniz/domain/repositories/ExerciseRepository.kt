@@ -6,4 +6,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface ExerciseRepository {
     fun observeExercises(): Flow<DataResult<List<Exercise>>>
+    suspend fun insertExercises(list: List<Exercise>)
 }
