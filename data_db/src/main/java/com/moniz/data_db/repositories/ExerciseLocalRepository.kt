@@ -1,7 +1,7 @@
 package com.moniz.data_db.repositories
 
 import com.moniz.data_db.dao.ExercisesDao
-import com.moniz.data_db.entities.ExerciseEntity
+import com.moniz.data_db.entities.tables.ExerciseEntity
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Provider

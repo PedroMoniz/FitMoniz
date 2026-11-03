@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.moniz.data_db.entities.ExerciseEntity
+import com.moniz.data_db.entities.tables.ExerciseEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao

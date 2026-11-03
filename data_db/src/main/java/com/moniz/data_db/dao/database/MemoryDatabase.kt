@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.moniz.data_db.converters.CommonTypeConverters
 import com.moniz.data_db.dao.ExercisesDao
-import com.moniz.data_db.entities.ExerciseEntity
+import com.moniz.data_db.entities.tables.ExerciseEntity
 
 
 @Database(
