@@ -29,10 +29,15 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":ui"))
     implementation(libs.androidx.core.ktx)
-    implementation(libs.lifecycle.viewmodel.navigation3)
-    implementation(libs.androidx.lifecycle.runtime.compose)
-    implementation(libs.hilt.android)
-    implementation(libs.hilt.navigation.compose)
+
+    api(libs.lifecycle.viewmodel.navigation3)
+    api(libs.androidx.lifecycle.runtime.compose)
+    api(libs.hilt.android)
+    api(libs.hilt.navigation.compose)
+    api(libs.androidx.compose.material3.adaptive.navigation.suite)
+    api(libs.androidx.navigation.compose)
+    api(libs.androidx.navigation3.runtime)
+    api(libs.androidx.navigation3.ui)
 
     ksp(libs.hilt.compiler)
 

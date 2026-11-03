@@ -22,11 +22,16 @@ android {
 }
 
 dependencies {
+    implementation(project(":domain"))
+
     api(libs.androidx.core.ktx)
     api(platform(libs.androidx.compose.bom))
     api(libs.androidx.compose.material3)
     api(libs.androidx.compose.ui)
     api(libs.androidx.compose.ui.tooling.preview)
     api(libs.androidx.material.icons.extended)
+    api(libs.coil.compose)
+    api(libs.coil.network)
+
     debugImplementation(libs.androidx.compose.ui.tooling)
 }

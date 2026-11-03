@@ -2,7 +2,7 @@ package com.moniz.data_db.di
 
 import android.content.Context
 import androidx.room.Room
-import com.moniz.data_db.database.MemoryDatabase
+import com.moniz.data_db.dao.database.MemoryDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

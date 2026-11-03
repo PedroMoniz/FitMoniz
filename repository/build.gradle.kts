@@ -22,13 +22,16 @@ android {
 }
 
 dependencies {
-    implementation(project(":app_base"))
     implementation(project(":domain"))
     implementation(project(":data_db"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.hilt.android)
+    implementation(libs.timber)
+
     ksp(libs.hilt.compiler)
-    testImplementation(libs.junit)
+
+    testImplementation(libs.bundles.unit.test)
+
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
 }

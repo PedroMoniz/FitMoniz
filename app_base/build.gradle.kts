@@ -24,35 +24,16 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.material)
 
-    // Shared core libraries exposed via 'api'
-    api(libs.androidx.core.ktx)
-
-    //hilt
+    api(libs.androidx.navigation3.runtime)
     api(libs.hilt.android)
+
     ksp(libs.hilt.compiler)
 
-    // Shared Lifecycle & ViewModel
-    api(libs.androidx.lifecycle.runtime.ktx)
-    api(libs.androidx.lifecycle.viewmodel.ktx)
-
-    //timber
-    api(libs.timber)
-
-    // Shared Compose BOM & UI libraries
-    api(platform(libs.androidx.compose.bom))
-    api(libs.androidx.activity.compose)
-    api(libs.androidx.compose.material3)
-    api(libs.androidx.compose.ui)
-    api(libs.androidx.compose.ui.graphics)
-    api(libs.androidx.compose.ui.tooling.preview)
-
-    // Module-only test dependencies
     testImplementation(libs.junit)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
-    debugImplementation(libs.androidx.compose.ui.tooling)
-    debugImplementation(libs.androidx.compose.ui.test.manifest)
+    androidTestImplementation(libs.androidx.junit)
 }
